@@ -1,5 +1,5 @@
-program Fantastic;
-uses WinCrt;
+program Fantastic; {The program isn't fantastic but whatever...}
+uses WinCrt; {To compile under DOS, replace WinCrt with Crt, Dos and it should work fine...}
 Type ExeHeaderType=Record
 			ExeFileId	: Word;
                         BytesAtLastPage	: Word;
@@ -54,6 +54,7 @@ Procedure AnalyzeExeFile;
         MinLoad:=(MinParagraphs*16)+ExeSize-(SizeOfHeader*16);
         Writeln(ExeFileName:25,'  (hex)		(dec)');
         Writeln;
+	{Output of the EXE information}
         AnalOut('.EXE size (bytes)	', ExeSize);
         AnalOut('Minimum load size (bytes)	',MinLoad);
         AnalOut('Overlay Number	',OverlayNumber and $00FF);
@@ -83,6 +84,7 @@ Procedure AnalyzeExeFile;
         AnalOut('CheckSum (calculated)		',CalcSum);
         AnalOut('Checksum should be		',CheckSum);
         Writeln;
+	{Some kind of checksum checker that should hopefully work correctly.}
         If CalcSum=$FFFF Then
         	Writeln(ExeFileName, ' has correct checksum in header.') Else
         Begin
@@ -119,6 +121,6 @@ Begin
          Halt(1);
         End;
          If ExeHeader.ExeFileId=$5A4D Then AnalyzeExeFile
-         Else Writeln ('exechk: This is not an EXE file!');
+	 Else Writeln ('exechk: This is not an EXE file!'); {TODO: fix the fact it still reads COM files for some reason... although it might not harm them, i don't know.}
         End;
 End.
